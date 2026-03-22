@@ -1,0 +1,118 @@
+import json
+import os
+
+arquivo = 'usuarios.json'
+
+
+#carregar dados
+def carregar_dados():
+    if os.path.exists(arquivo):
+        with open(arquivo, 'r') as f:
+            return json.load(f)
+    return []    
+def salvar_dados(usuarios):
+    with open(arquivo, 'w') as f:
+        json.dump(usuarios,f,indent=4)
+def cadastrar():
+    usuarios = carregar_dados()
+    
+    nome = input('Digite seu nome: ')
+    email = input('Digite seu email: ')
+    senha = input('Digite sua senha: ')
+    
+    usuario = {
+        'nome': nome,
+        'email': email,
+        'senha': senha
+    }
+    usuarios.append(usuario)
+    salvar_dados(usuarios)
+    print ('usuario cadastrado com sucesso!')
+
+def login():
+    usuarios= carregar_dados()
+    
+    email = input('Digite seu email: ')
+    senha = input('Digite sua senha: ')
+    
+    for user in usuarios:
+        if user['email'] == email and user['senha'] == senha:
+            print('login feito com sucesso!')
+            return user
+        if user['email'] == email:
+            print('Esse email ja esta cadastrado. Tente novamente com outro email. ')
+    
+    print('email ou senha incorretos. Tente novamente ')
+    return None
+
+def deletar():
+    usuarios = carregar_dados()
+
+    email = input('Digite seu email para deletar seu login:')
+    senha= input('Digite sua senha para deletar seu login:')
+
+    for user in usuarios:
+
+        if user['email'] == email and user['senha'] == senha:
+            usuarios.remove(user)
+            salvar_dados(usuarios)
+            print('usuario deletado com sucesso!')
+            return
+
+def editar():
+    usuarios = carregar_dados()
+
+    email = input('Digite seu email: ')
+    print('Login encontrado com sucesso!')
+
+    novo_nome = input('Digite seu novo nome: ')
+    nova_senha = input('Digite sua nova senha: ')
+
+    salvar_dados(usuarios)
+    print('usuario editado com sucesso!')
+
+def listar():
+    usuarios = carregar_dados()
+    if not usuarios:
+        print('nenhum usuário cadastrado. ')
+        return
+    for i, user in enumerate(usuarios, start=1):
+        print(f'{i}. Nome: {user["nome"]} - email: {user["email"]}')
+
+
+
+def menu():
+    while True:
+        print('n/ sistema de usuarios:')
+        print('1 cadastrar usuário')
+        print('2 login')
+        print('3 deletar usuário')
+        print('4 editar usuário')
+        print('5 listar usuários')
+        print('6 sair')
+
+        opcao = input('escolha uma opção: ')
+
+        if opcao == '1':
+            cadastrar()
+        elif opcao == '2':
+            login()
+        elif opcao == '3':
+            deletar()
+        elif opcao == '4':
+            editar()
+        elif opcao == '5':
+            listar()
+        elif opcao == '6':
+            print('saindo do sistema...')
+            break
+        else:
+            print('opção inválida tente novamente.')
+
+menu()
+    
+        
+        
+
+
+

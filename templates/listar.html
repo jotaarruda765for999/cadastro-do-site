@@ -1,0 +1,9 @@
+<h2>Usuarios cadastrados</h2>
+
+
+{% for usuario in usuarios %}
+    <p>{{ usuario.nome}} - {{ usuario.email}}</p>
+{%endfor %}
+
+<br>
+<a href="/">Voltar</a>
